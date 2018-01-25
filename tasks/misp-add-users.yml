@@ -34,8 +34,19 @@
 - name: flush handlers as we need service up for API call
   meta: flush_handlers
 
+- name: ensure PyMISP API working
+  command: "python3 ./last.py -l 10"
+  args:
+    chdir: "{{ misp_rootdir }}/PyMISP/examples"
+  environment:
+    debug: True
+  register: test
+  changed_when: false
+
 - name: list current users
   command: "python3 ./users_list.py chdir={{ misp_rootdir }}/PyMISP/examples"
+  environment:
+    debug: True
   register: listusers
   changed_when: false
 
