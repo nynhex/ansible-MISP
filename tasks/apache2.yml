@@ -1,19 +1,12 @@
 ---
 
 ## FIXME! or ssl ?
-#- command: "rsync -ci {{ misp_rootdir }}/INSTALL/apache.misp.ssl {{ apache_sitedir }}/misp-ssl.conf"
-- command: "rsync -ci {{ misp_rootdir }}/INSTALL/apache.misp.ubuntu {{ apache_sitedir }}/misp.conf"
-  register: rsync_result
-  changed_when: 'rsync_result.stdout != ""'
-  notify:
-    - restart webserver
-
-- name: redhat | update log path
-  replace: "dest={{ apache_sitedir }}/misp.conf regexp='/var/log/apache2/' replace='{{ apache_logs }}/'"
-  when: ansible_os_family == "RedHat"
-
-- name: Ensure misp apache config has correct permissions
-  file: dest="{{ apache_sitedir }}/misp.conf" mode=0644
+- name: Configure apache
+  template:
+    src: apache2-misp.conf.j2
+    dest: "{{ apache_sitedir }}/misp.conf"
+    mode: '0644'
+    backup: yes
 
 - name: Debian | Disable default apache config
   file: dest=/etc/apache2/sites-enabled/000-default.conf state=absent
