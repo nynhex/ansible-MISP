@@ -93,6 +93,10 @@ after_failure:
   - 'docker exec "$(cat ${container_id})" ls /var/log/redis/'
   - 'docker exec "$(cat ${container_id})" cat /var/log/redis/redis.log'
   - 'docker exec "$(cat ${container_id})" cat /var/log/redis/redis-server.log'
+  - 'docker exec "$(cat ${container_id})" cat /var/www/MISP/app/Config/config.php'
+  - 'docker exec "$(cat ${container_id})" cat /var/www/MISP/app/tmp/logs/debug.log'
+  - 'docker exec "$(cat ${container_id})" cat /var/www/MISP/app/tmp/logs/error.log'
+  - 'docker exec "$(cat ${container_id})" cat /var/www/MISP/app/tmp/logs/resque-*.log'
   - 'docker exec "$(cat ${container_id})" egrep "(www-data|apache|nginx)" /etc/passwd '
 
 after_script:
