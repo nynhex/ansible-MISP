@@ -75,10 +75,16 @@
 - debug: var=misp_base_url
 - debug: var=userInit
 - name: set local variables in PyMISP/tests/keys.py
-  lineinfile: "dest={{ misp_rootdir }}/PyMISP/tests/keys.py line='{{ item }}' create=yes owner={{ misp_testing_user }}"
+  lineinfile:
+    dest: "{{ misp_rootdir }}/PyMISP/tests/keys.py"
+    regexp: "{{ item.re }}"
+    line: "{{ item.l }}"
+    create: yes
+    owner: "{{ misp_testing_user }}"
   with_items:
-    - "url = \"{{ misp_base_url }}\""
-    - "key = \"{{ userkey }}\""
+    - { re: "^misp_url = .*", l: "misp_url = \"{{ misp_base_url }}\"" }
+    - { re: "^misp_key = .*", l: "misp_key = \"{{ userkey }}\"" }
+    - { re: '^misp_verifycert = .*', l: "misp_verifycert = {{ misp_pymisp_verifycert }}" }
   no_log: true
 - name: symlink key file in examples/events
   file: "src={{ misp_rootdir }}/PyMISP/tests/keys.py dest={{ misp_rootdir }}/PyMISP/examples/events/keys.py state=link force=yes owner={{ misp_testing_user }}"
