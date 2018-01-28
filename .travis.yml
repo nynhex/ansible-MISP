@@ -9,12 +9,14 @@ env:
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default
     ansible_version: 2.4.0.0
+    ansible_extra_vars: "'-e mispmodules_enable=false'"
   - distribution: ubuntu
     version: 16.04
     init: /lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default
     ansible_version: 2.4.0.0
+    ansible_extra_vars: ''
 ## FIXME! travis: 'No output has been received in the last 10m0s, this potentially indicates a stalled build or something wrong with the build itself.'
 #  - distribution: ubuntu
 #    version: 14.04
@@ -33,12 +35,14 @@ env:
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default
     ansible_version: 2.3.0.0
+    ansible_extra_vars: ''
   - distribution: ubuntu
     version: 16.04
     init: /lib/systemd/systemd
     run_opts: "'--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro'"
     suite: default
     ansible_version: 2.2.1.0
+    ansible_extra_vars: ''
 
 services:
   - docker
@@ -70,12 +74,12 @@ script:
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/juju4.MISP/test/integration/${suite}/default.yml --syntax-check'
 
   # Test role.
-  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook -vvv /etc/ansible/roles/juju4.MISP/test/integration/${suite}/default.yml'
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook ${ansible_extra_vars} -vvv /etc/ansible/roles/juju4.MISP/test/integration/${suite}/default.yml'
 
   # Test role idempotence.
 ## FIXME! known fail
   - >
-    sudo docker exec "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/juju4.MISP/test/integration/${suite}/default.yml
+    sudo docker exec "$(cat ${container_id})" env TERM=xterm ansible-playbook ${ansible_extra_vars} /etc/ansible/roles/juju4.MISP/test/integration/${suite}/default.yml
     | tee /tmp/idempotency.log
     | grep -q 'changed=0.*failed=0'
     && (echo 'Idempotence test: pass' && exit 0)
