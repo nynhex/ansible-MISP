@@ -11,6 +11,10 @@
         - { p: 'dupont_passphrase.', email: dupont@localhost.local, org: 1, role: 2 }
         - { p: 'dupond_passphrase.', email: dupond@localhost.local, org: 1, role: 4 }
 #        - { p: 'dupond_passphrase.', email: dupona@localhost.local, org: 1, role: 4 }
+  pre_tasks:
+    - set_fact:
+        mispmodules_enable: false
+      when: ansible_os_family == "RedHat" and ansible_distribution_version.split('.')[0] == '7'
   roles:
 #    - geerlingguy.apache
     - juju4.MISP
