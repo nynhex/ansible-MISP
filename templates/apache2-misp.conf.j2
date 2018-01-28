@@ -1,3 +1,8 @@
+# {{ ansible_managed }}
+{% if ansible_os_family == "RedHat" and (misp_base_port != 80 or misp_base_port != 443) %}
+Listen {{ misp_base_port }}
+
+{% endif %}
 <VirtualHost *:{{ misp_base_port }}>
     ServerAdmin {{ misp_email_contact }}
     ServerName {{ misp_servername }}

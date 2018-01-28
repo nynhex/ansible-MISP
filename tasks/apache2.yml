@@ -37,3 +37,12 @@
     - restart webserver
   when: ansible_os_family == 'Debian'
 
+- name: Debian | add listen ports if non-standard
+  lineinfile:
+    dest: /etc/apache2/ports.conf
+    line: "Listen {{ misp_base_port }}"
+    backup: yes
+  notify:
+    - restart webserver
+  when: ansible_os_family == 'Debian' and (misp_base_port != 80 or misp_base_port != 443)
+
