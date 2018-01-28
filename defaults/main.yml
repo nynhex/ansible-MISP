@@ -8,6 +8,7 @@ backupdir: /var/_backup
 #misp_version: 'HEAD'
 misp_version: '2.4'
 misp_rootdir: /var/www/MISP
+mispmodules_enable: true
 mispmodules_rootdir: /opt
 misp_webserver: 'apache2'
 #misp_webserver: 'nginx'
