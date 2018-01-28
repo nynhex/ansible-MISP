@@ -39,5 +39,6 @@
   shell: "misp-modules -s > /tmp/misp-modules.start 2>&1 &"
   become: yes
   become_user: www-data
+  become_method: su
   when: "'misp-modules' not in ps.stdout"
 
