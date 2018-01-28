@@ -35,10 +35,12 @@
 
 # https://github.com/ansible/ansible/issues/16052
 # https://docs.ansible.com/ansible/latest/intro_configuration.html#allow-world-readable-tmpfiles
+# https://github.com/ansible/ansible/issues/26741
 - name: start MISP modules app
   shell: "misp-modules -s > /tmp/misp-modules.start 2>&1 &"
+  args:
+    executable: /bin/sh
   become: yes
   become_user: www-data
-  become_method: su
   when: "'misp-modules' not in ps.stdout"
 
