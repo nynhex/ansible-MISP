@@ -32,6 +32,9 @@
   register: ps
   changed_when: false
   ignore_errors: true
+
+# https://github.com/ansible/ansible/issues/16052
+# https://docs.ansible.com/ansible/latest/intro_configuration.html#allow-world-readable-tmpfiles
 - name: start MISP modules app
   shell: "misp-modules -s > /tmp/misp-modules.start 2>&1 &"
   become: yes
