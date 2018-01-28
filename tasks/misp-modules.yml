@@ -28,7 +28,7 @@
     backup: yes
 
 - name: check if misp modules is running
-  shell: "ps axu |grep misp-modules"
+  shell: "ps axu | egrep '[m]isp-modules'"
   register: ps
   changed_when: false
   ignore_errors: true
