@@ -82,6 +82,7 @@ before_script:
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm pip install --upgrade pip'
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm pip install ansible==${ansible_version}'
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible --version'
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm mkdir /etc/ansible'
   - 'sudo docker exec --tty "$(cat ${container_id})" sh -c "echo \"allow_world_readable_tmpfiles=True\" >> /etc/ansible/ansible.cfg"'
 
 script:
