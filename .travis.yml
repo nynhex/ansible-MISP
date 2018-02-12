@@ -73,7 +73,7 @@ before_install:
   # Customize container
   - 'sudo docker build --rm=true --file=test/travis/Dockerfile.${distribution}-${version} --tag=${distribution}-${version}:ansible test'
 
-script:
+before_script:
   - container_id=$(mktemp)
     # Run container in detached state
 ## ## Note: mapping urandom/random to accelerate gpg key generation. Normally, have rng-tools or haveged to handle that but not running inside docker images we have
@@ -82,8 +82,9 @@ script:
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm pip install --upgrade pip'
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm pip install ansible==${ansible_version}'
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible --version'
-  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm echo "allow_world_readable_tmpfiles=True" >> /etc/ansible/ansible.cfg'
+  - 'sudo docker exec --tty "$(cat ${container_id})" sh -c "echo \"allow_world_readable_tmpfiles=True\" >> /etc/ansible/ansible.cfg"'
 
+script:
   # Ansible syntax check.
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/juju4.MISP/test/integration/${suite}/default.yml --syntax-check'
 
