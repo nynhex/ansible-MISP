@@ -17,6 +17,7 @@ misp_fcgi_enable: false
 misp_pip_cybox_version: '2.1.0.12'
 misp_pip_stix_version: '1.1.1.4'
 
+misp_pymisp_use: true
 ## for automation of users creation and testing
 misp_key_file: "{{ misp_rootdir }}/.ht_key"
 

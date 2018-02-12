@@ -316,9 +316,10 @@
   when: mispmodules_enable
 
 - include: testing.yml
-  when: misp_testing is defined and misp_testing
+  when: misp_pymisp_use and misp_testing is defined and misp_testing
 
 - include: misp-add-users.yml
+  when: misp_pymisp_use
 
 - include: misp-feeds.yml
 
